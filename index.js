@@ -12,9 +12,9 @@ app.use(express.json())
 
 // ******* dotenv 
 
-app.get('/', (req, res) => {
-    res.send('Server running')
-})
+// app.get('/', (req, res) => {
+//     res.send('Server running')
+// })
 
 const uri = "mongodb+srv://lockpc:qX74ZUQR7c6bRjCu@cluster0.t1ebet1.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -30,6 +30,13 @@ async function run() {
             const services = await cursor.toArray()
             res.send(services)
         })
+        app.get('/', async (req, res) => {
+            const query = {};
+            const cursor = servicesCollection.find(query).limit(3);
+            const services = await cursor.toArray()
+            res.send(services)
+        })
+
     }
     finally {
 
