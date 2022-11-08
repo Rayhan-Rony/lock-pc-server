@@ -44,7 +44,7 @@ async function run() {
             const query = { _id: ObjectId(id) }
             const service = await servicesCollection.findOne(query)
             res.send(service)
-            // const service = await cursor.toArray()
+
         })
         app.post('/reviews', async (req, res) => {
             const review = req.body;
@@ -52,10 +52,16 @@ async function run() {
             res.send(result)
         })
         app.get('/reviews', async (req, res) => {
-            const query = {}
+            let query = {};
+            if (req.query.email) {
+                query = {
+                    email: req.query.email
+                }
+            }
+
             const cursor = reviewsCollection.find(query)
-            const reviews = await cursor.toArray()
-            res.send(reviews)
+            const myreviews = await cursor.toArray()
+            res.send(myreviews)
         })
         app.get('/reviews/:id', async (req, res) => {
             const id = req.params.id
