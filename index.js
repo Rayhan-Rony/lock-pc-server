@@ -39,7 +39,7 @@ async function run() {
             res.send(services)
         })
         app.get('/services/:id', async (req, res) => {
-            console.log(req.params.id)
+            // console.log(req.params.id)
             const id = req.params.id
             const query = { _id: ObjectId(id) }
             const service = await servicesCollection.findOne(query)
@@ -66,9 +66,17 @@ async function run() {
         app.get('/reviews/:id', async (req, res) => {
             const id = req.params.id
             const query = { service_id: parseInt(id) }
-            console.log(query)
+            // console.log(query)
             const cursor = reviewsCollection.find(query)
             const result = await cursor.toArray()
+            res.send(result)
+        })
+
+        app.delete('/reviews/:id', async (req, res) => {
+            const id = req.params.id
+            console.log(id)
+            const query = { _id: ObjectId(id) }
+            const result = await reviewsCollection.deleteOne(query)
             res.send(result)
         })
 
